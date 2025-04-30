@@ -88,6 +88,10 @@ def lambda_handler(event, context):
             "temperature": 0.7,
             "top_p": 0.9
         }
+        headers = {
+            "accept": "application/json",
+            "Content-Type": "application/json"
+        }
         
         print("Calling Bedrock invoke_model API with payload:", json.dumps(request_payload))
         
@@ -97,12 +101,11 @@ def lambda_handler(event, context):
         #    body=json.dumps(request_payload),
         #    contentType="application/json"
         #)
-        session = requests.Session()
-        response = session.post(f"{API_URL}/generate", json=request_payload)
+        response = request.Request(f"{API_URL}/generate", data=request_payload, headers=headers, method="POST")
         
         # レスポンスを解析
         #response_body = json.loads(response['body'].read())
-        response_body = response.json()
+        response_body = json.loads(response.read())
         print("Bedrock response:", json.dumps(response_body, default=str))
         
         # 応答の検証
