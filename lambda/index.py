@@ -75,13 +75,6 @@ def lambda_handler(event, context):
 
         # invoke_model用のリクエストペイロード
         request_payload = {
-            #"messages": bedrock_messages,
-            #"inferenceConfig": {
-            #    "maxTokens": 512,
-            #    "stopSequences": [],
-            #    "temperature": 0.7,
-            #    "topP": 0.9
-            #}
             "prompt": message,
             "max_new_tokens": 512,
             "do_sample": "true",
@@ -97,25 +90,14 @@ def lambda_handler(event, context):
         print("Calling Bedrock invoke_model API with payload:", json.dumps(request_payload))
 
         # invoke_model APIを呼び出し
-        #response = bedrock_client.invoke_model(
-        #    modelId=MODEL_ID,
-        #    body=json.dumps(request_payload),
-        #    contentType="application/json"
-        #)
         request_body = request.Request(f"{API_URL}/generate", data=data, headers=headers, method="POST")
         response = request.urlopen(request_body)
 
         # レスポンスを解析
-        #response_body = json.loads(response['body'].read())
         response_body = json.loads(response.read())
         print("Bedrock response:", json.dumps(response_body, default=str))
 
-        # 応答の検証
-        #if not response_body.get('output') or not response_body['output'].get('message') or not response_body['output']['message'].get('content'):
-        #    raise Exception("No response content from the model")
-
         # アシスタントの応答を取得
-        #assistant_response = response_body['output']['message']['content'][0]['text']
         assistant_response = response_body["generated_text"]
 
         # アシスタントの応答を会話履歴に追加
