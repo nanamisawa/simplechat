@@ -82,7 +82,7 @@ def lambda_handler(event, context):
             #    "temperature": 0.7,
             #    "topP": 0.9
             #}
-            "prompt": bedrock_messages,
+            "prompt": message,
             "max_new_tokens": 512,
             "do_sample": true,
             "temperature": 0.7,
