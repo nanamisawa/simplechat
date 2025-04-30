@@ -98,7 +98,7 @@ def lambda_handler(event, context):
         #    contentType="application/json"
         #)
         session = requests.Session()
-        response = self.session.post(f"{API_URL}/generate", json=request_payload)
+        response = session.post(f"{API_URL}/generate", json=request_payload)
         
         # レスポンスを解析
         #response_body = json.loads(response['body'].read())
